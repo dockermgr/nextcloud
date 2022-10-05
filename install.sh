@@ -9,11 +9,11 @@
 # @@Copyright        :  Copyright: (c) 2022 Jason Hempstead, Casjays Developments
 # @@Created          :  Tuesday, Oct 04, 2022 23:19 EDT
 # @@File             :  install.sh
-# @@Description      :  
+# @@Description      :
 # @@Changelog        :  New script
 # @@TODO             :  Better documentation
-# @@Other            :  
-# @@Resource         :  
+# @@Other            :
+# @@Resource         :
 # @@Terminal App     :  no
 # @@sudo/root        :  no
 # @@Template         :  installers/dockermgr
@@ -132,8 +132,8 @@ NGINX_HTTPS="${NGINX_HTTPS:-443}"
 NGINX_PORT="${NGINX_HTTPS:-$NGINX_HTTP}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Port Setup [ _INT is container port ] [ _EXT is docker ]
-SERVER_PORT_EXT="${SERVER_PORT_EXT:-}"
-SERVER_PORT_INT="${SERVER_PORT_INT:-}"
+SERVER_PORT_EXT="${SERVER_PORT_EXT:-19088}"
+SERVER_PORT_INT="${SERVER_PORT_INT:-80}"
 SERVER_PORT_ADMIN_EXT="${SERVER_PORT_ADMIN_EXT:-}"
 SERVER_PORT_ADMIN_INT="${SERVER_PORT_ADMIN_INT:-}"
 SERVER_PORT_OTHER_EXT="${SERVER_PORT_OTHER_EXT:-}"
@@ -149,7 +149,7 @@ SERVER_MESSAGE_PASS=""
 SERVER_MESSAGE_POST=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # URL to container image [docker pull URL]
-HUB_URL="hello-world"
+HUB_URL="casjaysdevdocker/nextcloud"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # import global variables
 if [ -f "$APPDIR/env.sh" ] && [ ! -f "$DOCKERMGR_HOME/env/$APPNAME" ]; then
@@ -226,7 +226,8 @@ else
     --restart=always \
     --privileged \
     -e TZ="$SERVER_TIMEZONE" \
-    -v $LOCAL_DATA_DIR:/data:z \
+    -e NEXTCLOUD_UPDATE=1 \
+    -v $LOCAL_DATA_DIR:/var/www/html:z \
     -v $LOCAL_CONFIG_DIR:/config:z \
     -p $SERVER_LISTEN:$SERVER_PORT_EXT:$SERVER_PORT_INT \
     "$HUB_URL" &>/dev/null
