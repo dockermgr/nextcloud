@@ -19,17 +19,17 @@ dockermgr update nextcloud
 ## Install and run container
   
 ```shell
-mkdir -p "$HOME/.local/share/srv/docker/nextcloud/rootfs"
+mkdir -p "$HOME/.local/share/srv/docker/nextcloud/volumes"
 git clone "https://github.com/dockermgr/nextcloud" "$HOME/.local/share/CasjaysDev/dockermgr/nextcloud"
-cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/nextcloud/rootfs/." "$HOME/.local/share/srv/docker/nextcloud/rootfs/"
+cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/nextcloud/volumes/." "$HOME/.local/share/srv/docker/nextcloud/volumes/"
 docker run -d \
 --restart always \
 --privileged \
 --name casjaysdevdocker-nextcloud \
 --hostname nextcloud \
 -e TZ=${TIMEZONE:-America/New_York} \
--v "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/rootfs/data:/data:z" \
--v "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/rootfs/config:/config:z" \
+-v "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/volumes/data:/data:z" \
+-v "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/volumes/config:/config:z" \
 -p 80:80 \
 casjaysdevdocker/nextcloud:latest
 ```
@@ -46,8 +46,8 @@ services:
       - TZ=America/New_York
       - HOSTNAME=nextcloud
     volumes:
-      - "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/rootfs/data:/data:z"
-      - "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/rootfs/config:/config:z"
+      - "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/volumes/data:/data:z"
+      - "$HOME/.local/share/srv/docker/casjaysdevdocker-nextcloud/volumes/config:/config:z"
     ports:
       - 80:80
     restart: always
